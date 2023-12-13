@@ -16,7 +16,9 @@ export class App extends Component {
     page: 1,
     showModal: false,
     fullImage: '',
+    total: 0,
   };
+  // total = null;
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -34,9 +36,11 @@ export class App extends Component {
         error: '',
       });
       const response = await getAllPhotos(this.state.query, this.state.page);
-
+      console.log(response);
+      this.total = response.data.total;
       this.setState(prev => ({
         pics: [...prev.pics, ...response.data.hits],
+        total: response.data.total,
       }));
     } catch (error) {
       this.setState({
@@ -46,6 +50,7 @@ export class App extends Component {
       this.setState({
         isLoading: false,
       });
+      console.log(this.state);
     }
   };
 
@@ -88,7 +93,9 @@ export class App extends Component {
             openModal={this.openModal}
           />
         )}
-        {pics.length > 0 && <Button handleLoadMore={this.handleLoadMore} />}
+        {pics.length > 0 && pics.length !== this.state.total && (
+          <Button handleLoadMore={this.handleLoadMore} />
+        )}
       </div>
     );
   }

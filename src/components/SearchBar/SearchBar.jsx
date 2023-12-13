@@ -5,14 +5,12 @@ class SearchBar extends Component {
     query: '',
   };
   handleChange = e => {
-    console.log(e.target.value);
     this.setState(prev => {
       return { ...prev, query: e.target.value };
     });
   };
   handleSubmit = e => {
     e.preventDefault();
-    console.log(e);
 
     this.props.handleSubmit(this.state.query);
     this.setState({

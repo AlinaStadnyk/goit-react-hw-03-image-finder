@@ -18,7 +18,6 @@ export class App extends Component {
     fullImage: '',
     total: 0,
   };
-  // total = null;
 
   componentDidUpdate(prevProps, prevState) {
     if (
@@ -36,8 +35,11 @@ export class App extends Component {
         error: '',
       });
       const response = await getAllPhotos(this.state.query, this.state.page);
-      console.log(response);
+
       this.total = response.data.total;
+      if (response.data.hits.length === 0) {
+        alert('There are no results matching your query, please try again');
+      }
       this.setState(prev => ({
         pics: [...prev.pics, ...response.data.hits],
         total: response.data.total,
@@ -50,7 +52,6 @@ export class App extends Component {
       this.setState({
         isLoading: false,
       });
-      console.log(this.state);
     }
   };
 
